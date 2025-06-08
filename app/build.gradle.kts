@@ -37,16 +37,45 @@ android {
 }
 
 dependencies {
+    // Firebase BOM
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.analytics.ktx)
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
+    // OkHttp
+    implementation(libs.okhttp.logging.interceptor)
+
+    // Gson
+    implementation(libs.gson)
+
+    // RecyclerView
+    implementation(libs.androidx.recyclerview)
+
+    // CardView
+    implementation(libs.androidx.cardview)
+
+    // Material Design
+    implementation(libs.material)
+
+    // CoordinatorLayout
+    implementation(libs.androidx.coordinatorlayout)
+
+    // Core AndroidX
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.firebase.auth)
+
+    // Credentials
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

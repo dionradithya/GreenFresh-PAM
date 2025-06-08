@@ -96,31 +96,27 @@ class LoginFormActivity : AppCompatActivity() {
     }
 
     private fun simulateLogin(email: String, password: String) {
-        // Show loading state (you can add a progress bar here)
         loginButton.isEnabled = false
         loginButton.text = "Loading..."
 
-        // Simulate network call with delay
         loginButton.postDelayed({
-            // Reset button state
             loginButton.isEnabled = true
             loginButton.text = "Login"
 
-            // For demo purposes, accept any valid email/password
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 Toast.makeText(this, "Login berhasil!", Toast.LENGTH_SHORT).show()
 
-                // Navigate to home activity (create this later)
-                // val intent = Intent(this, HomeActivity::class.java)
-                // startActivity(intent)
-                // finish()
+                // Navigate to HomeActivity and clear the back stack
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
 
-                // For now, just show success message
                 Toast.makeText(this, "Selamat datang, $email", Toast.LENGTH_LONG).show()
             } else {
                 Toast.makeText(this, "Login gagal. Periksa email dan password Anda.", Toast.LENGTH_SHORT).show()
             }
-        }, 1500) // 1.5 second delay to simulate network call
+        }, 1500)
     }
 
     override fun onBackPressed() {
