@@ -1,7 +1,7 @@
-package com.example.greenfresh
+package com.example.greenfresh.api
 
-import com.example.greenfresh.PlantResponse
-import com.example.greenfresh.SinglePlantResponse
+import com.example.greenfresh.model.PlantResponse
+import com.example.greenfresh.model.SinglePlantResponse
 import retrofit2.Call
 import retrofit2.http.*
 

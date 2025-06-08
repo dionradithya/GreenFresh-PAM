@@ -2,55 +2,95 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="#E6F0FA"
-    android:padding="16dp">
+    android:background="#E6F0FA">
 
-    <TextView
+    <!-- Header -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="GreenFresh"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
-        android:gravity="center"
-        android:background="#4CAF50"
-        android:padding="8dp" />
+        android:layout_marginBottom="8dp"
+        app:cardElevation="4dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/green_dark"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="GreenFresh"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </androidx.cardview.widget.CardView>
 
     <ImageView
         android:id="@+id/iv_plant_image"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:src="@drawable/plant"
-        android:contentDescription="Plant Image" />
+        android:contentDescription="Plant Image"
+        android:background="@drawable/rounded_image_border"/>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="Nama Tanaman :"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
     <EditText
         android:id="@+id/et_plant_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Masukkan nama tanaman"
-        android:layout_marginTop="16dp"
         android:padding="8dp"
         android:background="@drawable/edit_text_border" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="16dp"
+            android:text="Harga :"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
     <EditText
         android:id="@+id/et_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Masukkan harga"
-        android:layout_marginTop="16dp"
         android:padding="8dp"
         android:background="@drawable/edit_text_border" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginTop="16dp"
+            android:text="Deskripsi :"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp" />
     <EditText
         android:id="@+id/et_description"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:hint="Masukkan deskripsi"
-        android:layout_marginTop="16dp"
         android:padding="8dp"
         android:background="@drawable/edit_text_border" />
+
+        </LinearLayout>
 
     <Button
         android:id="@+id/btn_tambah"

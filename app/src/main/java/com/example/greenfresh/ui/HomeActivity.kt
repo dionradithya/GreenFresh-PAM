@@ -1,4 +1,4 @@
-package com.example.greenfresh
+package com.example.greenfresh.ui
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -11,9 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.greenfresh.PlantAdapter
-import com.example.greenfresh.Plant
-import com.example.greenfresh.PlantResponse
-import com.example.greenfresh.RetrofitClient
+import com.example.greenfresh.R
+import com.example.greenfresh.api.RetrofitClient
+import com.example.greenfresh.model.Plant
+import com.example.greenfresh.model.PlantResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

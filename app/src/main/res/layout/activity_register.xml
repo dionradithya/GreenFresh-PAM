@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_color"
     android:fillViewport="true"
-    tools:context=".RegisterActivity">
+    tools:context=".ui.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/input_background"
+                android:background="@drawable/green_border"
                 android:fontFamily="sans-serif"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
@@ -96,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/input_background"
+                android:background="@drawable/green_border"
                 android:fontFamily="sans-serif"
                 android:hint="Password"
                 android:inputType="textPassword"
@@ -124,7 +124,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="32dp"
-                android:background="@drawable/input_background"
+                android:background="@drawable/green_border"
                 android:fontFamily="sans-serif"
                 android:hint="Masukkan nama tanaman"
                 android:inputType="textPassword"
@@ -142,7 +142,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginBottom="24dp"
-                android:background="@drawable/button_background"
+                app:cornerRadius="12dp"
+                android:backgroundTint="@color/green_primary"
                 android:fontFamily="sans-serif-medium"
                 android:text="Register"
                 android:textColor="@android:color/white"

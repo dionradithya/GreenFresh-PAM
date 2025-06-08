@@ -1,4 +1,4 @@
-package com.example.greenfresh
+package com.example.greenfresh.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F5"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,13 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            app:cardCornerRadius="0dp"
             app:cardElevation="4dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#6CBB3C"
+                android:background="@color/green_dark"
                 android:gravity="center"
                 android:padding="16dp"
                 android:text="GreenFresh"
@@ -40,7 +39,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="8dp"
-            android:background="@drawable/button_background"
+            app:cornerRadius="12dp"
+            android:backgroundTint="@color/green_dark"
             android:text="Tambah List"
             android:textColor="@android:color/white"
             android:textSize="16sp"

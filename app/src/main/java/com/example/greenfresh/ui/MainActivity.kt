@@ -1,11 +1,11 @@
-package com.example.greenfresh
+package com.example.greenfresh.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import com.example.greenfresh.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -7,7 +7,7 @@
     android:background="@color/background_color"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context=".LoginFormActivity">
+    tools:context=".ui.LoginFormActivity">
 
     <!-- Top Spacer -->
     <View
@@ -64,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginBottom="24dp"
-            android:background="@drawable/input_background"
+            android:background="@drawable/green_border"
             android:fontFamily="sans-serif"
             android:hint="Email"
             android:inputType="textEmailAddress"
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginBottom="32dp"
-            android:background="@drawable/input_background"
+            android:background="@drawable/green_border"
             android:fontFamily="sans-serif"
             android:hint="Password"
             android:inputType="textPassword"
@@ -109,9 +109,10 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@drawable/button_background"
+            app:cornerRadius="12dp"
             android:fontFamily="sans-serif-medium"
             android:text="Login"
+            android:backgroundTint="@color/green_primary"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:elevation="2dp" />

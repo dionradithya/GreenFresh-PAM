@@ -1,4 +1,4 @@
-package com.example.greenfresh
+package com.example.greenfresh.model
 
 import com.google.gson.annotations.SerializedName
 

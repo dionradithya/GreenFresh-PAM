@@ -7,9 +7,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.greenfresh.R
-import com.example.greenfresh.Plant
+import com.example.greenfresh.model.Plant
 import android.content.Intent
+import com.example.greenfresh.ui.PlantDetailActivity
 
 class PlantAdapter(
     private var plants: List<Plant>,

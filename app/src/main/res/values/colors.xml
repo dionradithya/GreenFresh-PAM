@@ -2,12 +2,14 @@
 <resources>
     <!-- Primary Colors -->
     <color name="green_primary">#4CAF50</color>
-    <color name="green_dark">#388E3C</color>
+    <color name="green_dark">#61BB4E</color>
     <color name="green_light">#C8E6C9</color>
 
     <!-- Background Colors -->
     <color name="background_color">#F5F7FA</color>
     <color name="white">#FFFFFF</color>
+    <color name="red">#FF0004</color>
+
 
     <!-- Text Colors -->
     <color name="text_primary">#2C3E50</color>
