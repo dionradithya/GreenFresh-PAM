@@ -1,20 +1,79 @@
 package com.example.greenfresh
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class AddPlantActivity : AppCompatActivity() {
+
+    private lateinit var plantImage: ImageView
+    private lateinit var nameEditText: EditText
+    private lateinit var priceEditText: EditText
+    private lateinit var descriptionEditText: EditText
+    private lateinit var addButton: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_add_plant)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        initViews()
+        setupClickListeners()
+    }
+
+    private fun initViews() {
+        plantImage = findViewById(R.id.iv_plant_image)
+        nameEditText = findViewById(R.id.et_plant_name)
+        priceEditText = findViewById(R.id.et_price)
+        descriptionEditText = findViewById(R.id.et_description)
+        addButton = findViewById(R.id.btn_tambah)
+
+        plantImage.setImageResource(R.drawable.plant)
+    }
+
+    private fun setupClickListeners() {
+        addButton.setOnClickListener {
+            val plantName = nameEditText.text.toString().trim()
+            val price = priceEditText.text.toString().trim()
+            val description = descriptionEditText.text.toString().trim()
+
+            if (validateInputs(plantName, price, description)) {
+                createPlant(plantName, description, price)
+            }
         }
+    }
+
+    private fun validateInputs(name: String, price: String, description: String): Boolean {
+        if (name.isEmpty()) {
+            nameEditText.error = "Nama tanaman tidak boleh kosong"
+            return false
+        }
+        if (price.isEmpty()) {
+            priceEditText.error = "Harga tidak boleh kosong"
+            return false
+        }
+        if (description.isEmpty()) {
+            descriptionEditText.error = "Deskripsi tidak boleh kosong"
+            return false
+        }
+        return true
+    }
+
+    private fun createPlant(name: String, description: String, price: String) {
+        val request = CreatePlantRequest(name, description, price)
+        RetrofitClient.apiService.createPlant(request).enqueue(object : retrofit2.Callback<SinglePlantResponse> {
+            override fun onResponse(call: retrofit2.Call<SinglePlantResponse>, response: retrofit2.Response<SinglePlantResponse>) {
+                if (response.isSuccessful) {
+                    finish()
+                } else {
+                    // Handle error
+                }
+            }
+
+            override fun onFailure(call: retrofit2.Call<SinglePlantResponse>, t: Throwable) {
+                // Handle failure
+            }
+        })
     }
 }

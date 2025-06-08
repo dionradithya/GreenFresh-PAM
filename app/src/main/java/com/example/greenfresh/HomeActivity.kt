@@ -42,9 +42,9 @@ class HomeActivity : AppCompatActivity() {
         btnTambahList = findViewById(R.id.btn_tambah_list)
 
         btnTambahList.setOnClickListener {
-            // Navigate to add plant activity
-            // val intent = Intent(this, AddPlantActivity::class.java)
-            // startActivity(intent)
+//             Navigate to add plant activity
+             val intent = Intent(this, AddPlantActivity::class.java)
+             startActivity(intent)
             Toast.makeText(this, "Fitur Tambah List akan segera hadir", Toast.LENGTH_SHORT).show()
         }
     }
@@ -127,7 +127,7 @@ class HomeActivity : AppCompatActivity() {
     private fun showPlantDetail(plant: Plant) {
         val intent = Intent(this, PlantDetailActivity::class.java)
         intent.putExtra("plant_id", plant.id)
-        intent.putExtra("plant_name", plant.plantName)
+        intent.putExtra("plant_name", plant.plantName ?: "") // Ensure plantName is not null
         startActivity(intent)
     }
 
