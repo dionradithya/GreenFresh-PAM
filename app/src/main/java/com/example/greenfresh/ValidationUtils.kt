@@ -6,18 +6,10 @@ import android.widget.EditText
 
 object ValidationUtils {
 
-    /**
-     * Validate email format
-     */
     fun isValidEmail(email: String): Boolean {
         return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
-    /**
-     * Validate password strength for Firebase
-     * Firebase requires minimum 6 characters
-     * We also check for letters and numbers for stronger security
-     */
     fun isValidPassword(password: String): Boolean {
         if (password.length < 6) return false
 
@@ -27,38 +19,23 @@ object ValidationUtils {
         return hasLetter && hasDigit
     }
 
-    /**
-     * Check if passwords match
-     */
     fun doPasswordsMatch(password: String, confirmPassword: String): Boolean {
         return password == confirmPassword
     }
 
-    /**
-     * Set error message on EditText
-     */
     fun setError(editText: EditText, message: String) {
         editText.error = message
         editText.requestFocus()
     }
 
-    /**
-     * Clear error from EditText
-     */
     fun clearError(editText: EditText) {
         editText.error = null
     }
 
-    /**
-     * Clear all errors from multiple EditTexts
-     */
     fun clearAllErrors(vararg editTexts: EditText) {
         editTexts.forEach { clearError(it) }
     }
 
-    /**
-     * Validate email and show error if invalid
-     */
     fun validateEmail(emailEditText: EditText): Boolean {
         val email = emailEditText.text.toString().trim()
 
@@ -77,11 +54,6 @@ object ValidationUtils {
             }
         }
     }
-
-    /**
-     * Validate password and show error if invalid
-     * Enhanced for Firebase requirements
-     */
     fun validatePassword(passwordEditText: EditText): Boolean {
         val password = passwordEditText.text.toString().trim()
 
@@ -105,9 +77,6 @@ object ValidationUtils {
         }
     }
 
-    /**
-     * Validate confirm password
-     */
     fun validateConfirmPassword(
         passwordEditText: EditText,
         confirmPasswordEditText: EditText
@@ -131,9 +100,6 @@ object ValidationUtils {
         }
     }
 
-    /**
-     * Validate all registration fields at once
-     */
     fun validateRegistrationForm(
         emailEditText: EditText,
         passwordEditText: EditText,
@@ -149,9 +115,6 @@ object ValidationUtils {
         return isEmailValid && isPasswordValid && isConfirmPasswordValid
     }
 
-    /**
-     * Get password strength description
-     */
     fun getPasswordStrengthMessage(password: String): String {
         return when {
             password.isEmpty() -> "Password kosong"

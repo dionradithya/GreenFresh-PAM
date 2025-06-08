@@ -75,7 +75,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun registerWithFirebase(email: String, password: String) {
-        // Show loading state
         setLoadingState(true)
 
         auth.createUserWithEmailAndPassword(email, password)
@@ -134,7 +133,6 @@ class RegisterActivity : AppCompatActivity() {
 
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
 
-        // Set specific error on email field if it's a collision
         if (exception is FirebaseAuthUserCollisionException) {
             ValidationUtils.setError(emailEditText, "Email sudah terdaftar")
         }
@@ -143,8 +141,6 @@ class RegisterActivity : AppCompatActivity() {
     private fun setLoadingState(isLoading: Boolean) {
         registerButton.isEnabled = !isLoading
         registerButton.text = if (isLoading) "Mendaftar..." else "Register"
-
-        // Disable input fields during loading
         emailEditText.isEnabled = !isLoading
         passwordEditText.isEnabled = !isLoading
         confirmPasswordEditText.isEnabled = !isLoading
@@ -156,10 +152,5 @@ class RegisterActivity : AppCompatActivity() {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        // Optional: Add custom back button behavior
     }
 }

@@ -37,7 +37,6 @@ class PlantAdapter(
         holder.plantName.text = plant.plantName
         holder.plantPrice.text = plant.getFormattedPrice()
 
-        // Set static image based on plant name or use default
         val imageResource = getPlantImageResource(plant.plantName)
         holder.plantImage.setImageResource(imageResource)
 
@@ -59,7 +58,7 @@ class PlantAdapter(
 
     private fun getPlantImageResource(plantName: String): Int {
         return when (plantName.lowercase()) {
-            else -> R.drawable.plant // Default plant image
+            else -> R.drawable.plant
         }
     }
 
@@ -67,7 +66,7 @@ class PlantAdapter(
         val intent = Intent(holder.itemView.context, PlantDetailActivity::class.java).apply {
             putExtra("plant_id", plant.id)
             putExtra("plant_name", plant.plantName)
-            putExtra("price", plant.price) // Pass raw price
+            putExtra("price", plant.price)
             putExtra("description", plant.description)
         }
         holder.itemView.context.startActivity(intent)

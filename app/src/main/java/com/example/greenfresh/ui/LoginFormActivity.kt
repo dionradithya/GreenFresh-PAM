@@ -20,13 +20,8 @@ class LoginFormActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_form)
 
-        // Initialize views
         initViews()
-
-        // Set up click listeners
         setupClickListeners()
-
-        // Check if email was passed from registration
         checkForRegisteredEmail()
     }
 
@@ -58,9 +53,6 @@ class LoginFormActivity : AppCompatActivity() {
         if (!validateInput(email, password)) {
             return
         }
-
-        // TODO: Implement actual login logic here
-        // For now, simulate login
         simulateLogin(email, password)
     }
 
@@ -107,7 +99,6 @@ class LoginFormActivity : AppCompatActivity() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 Toast.makeText(this, "Login berhasil!", Toast.LENGTH_SHORT).show()
 
-                // Navigate to HomeActivity and clear the back stack
                 val intent = Intent(this, HomeActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
@@ -118,10 +109,5 @@ class LoginFormActivity : AppCompatActivity() {
                 Toast.makeText(this, "Login gagal. Periksa email dan password Anda.", Toast.LENGTH_SHORT).show()
             }
         }, 1500)
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        // Optional: Add custom back button behavior
     }
 }

@@ -41,7 +41,6 @@ class PlantDetailActivity : AppCompatActivity() {
         val description = intent.getStringExtra("description") ?: "No description available"
 
         plantNameTextView.text = plantName
-        // Format price if needed, but since we're passing raw price, use it directly
         plantPriceTextView.text = try {
             "Rp ${price.toLongOrNull()?.let { String.format("%,d", it).replace(',', '.') } ?: price}"
         } catch (e: NumberFormatException) {

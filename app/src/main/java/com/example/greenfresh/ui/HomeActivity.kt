@@ -43,10 +43,8 @@ class HomeActivity : AppCompatActivity() {
         btnTambahList = findViewById(R.id.btn_tambah_list)
 
         btnTambahList.setOnClickListener {
-//             Navigate to add plant activity
              val intent = Intent(this, AddPlantActivity::class.java)
              startActivity(intent)
-            Toast.makeText(this, "Fitur Tambah List akan segera hadir", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -112,7 +110,7 @@ class HomeActivity : AppCompatActivity() {
 
                 if (response.isSuccessful) {
                     Toast.makeText(this@HomeActivity, "${plant.plantName} berhasil dihapus", Toast.LENGTH_SHORT).show()
-                    loadPlants() // Refresh the list
+                    loadPlants()
                 } else {
                     showError("Gagal menghapus tanaman: ${response.message()}")
                 }
@@ -128,7 +126,7 @@ class HomeActivity : AppCompatActivity() {
     private fun showPlantDetail(plant: Plant) {
         val intent = Intent(this, PlantDetailActivity::class.java)
         intent.putExtra("plant_id", plant.id)
-        intent.putExtra("plant_name", plant.plantName ?: "") // Ensure plantName is not null
+        intent.putExtra("plant_name", plant.plantName ?: "")
         startActivity(intent)
     }
 
@@ -147,7 +145,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // Refresh data when returning from other activities
         loadPlants()
     }
 }
