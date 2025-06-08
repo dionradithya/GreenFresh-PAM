@@ -78,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
                         if (plants.isEmpty()) {
                             showEmptyState()
                         }
-                    }
+                    } ?: showError("No data received")
                 } else {
                     showError("Gagal memuat data: ${response.message()}")
                 }

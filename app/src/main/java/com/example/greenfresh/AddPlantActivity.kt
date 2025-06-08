@@ -5,6 +5,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
+import android.content.Intent
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AddPlantActivity : AppCompatActivity() {
 
@@ -62,17 +67,23 @@ class AddPlantActivity : AppCompatActivity() {
 
     private fun createPlant(name: String, description: String, price: String) {
         val request = CreatePlantRequest(name, description, price)
-        RetrofitClient.apiService.createPlant(request).enqueue(object : retrofit2.Callback<SinglePlantResponse> {
-            override fun onResponse(call: retrofit2.Call<SinglePlantResponse>, response: retrofit2.Response<SinglePlantResponse>) {
+        RetrofitClient.apiService.createPlant(request).enqueue(object : Callback<SinglePlantResponse> {
+            override fun onResponse(call: Call<SinglePlantResponse>, response: Response<SinglePlantResponse>) {
                 if (response.isSuccessful) {
+                    Toast.makeText(this@AddPlantActivity, "Tanaman berhasil ditambahkan!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this@AddPlantActivity, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
                     finish()
                 } else {
                     // Handle error
+                    Toast.makeText(this@AddPlantActivity, "Gagal menambahkan tanaman: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: retrofit2.Call<SinglePlantResponse>, t: Throwable) {
+            override fun onFailure(call: Call<SinglePlantResponse>, t: Throwable) {
                 // Handle failure
+                Toast.makeText(this@AddPlantActivity, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

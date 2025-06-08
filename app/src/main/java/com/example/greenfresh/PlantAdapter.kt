@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.greenfresh.R
 import com.example.greenfresh.Plant
+import android.content.Intent
 
 class PlantAdapter(
     private var plants: List<Plant>,
@@ -45,7 +46,7 @@ class PlantAdapter(
         }
 
         holder.detailButton.setOnClickListener {
-            onDetailClick(plant)
+            showPlantDetail(plant, holder)
         }
     }
 
@@ -60,5 +61,15 @@ class PlantAdapter(
         return when (plantName.lowercase()) {
             else -> R.drawable.plant // Default plant image
         }
+    }
+
+    private fun showPlantDetail(plant: Plant, holder: PlantViewHolder) {
+        val intent = Intent(holder.itemView.context, PlantDetailActivity::class.java).apply {
+            putExtra("plant_id", plant.id)
+            putExtra("plant_name", plant.plantName)
+            putExtra("price", plant.price) // Pass raw price
+            putExtra("description", plant.description)
+        }
+        holder.itemView.context.startActivity(intent)
     }
 }
