@@ -14,9 +14,9 @@ object ValidationUtils {
     }
 
     /**
-     * Validate password strength
-     * - Minimum 6 characters
-     * - Must contain letters and numbers
+     * Validate password strength for Firebase
+     * Firebase requires minimum 6 characters
+     * We also check for letters and numbers for stronger security
      */
     fun isValidPassword(password: String): Boolean {
         if (password.length < 6) return false
@@ -50,6 +50,13 @@ object ValidationUtils {
     }
 
     /**
+     * Clear all errors from multiple EditTexts
+     */
+    fun clearAllErrors(vararg editTexts: EditText) {
+        editTexts.forEach { clearError(it) }
+    }
+
+    /**
      * Validate email and show error if invalid
      */
     fun validateEmail(emailEditText: EditText): Boolean {
@@ -73,6 +80,7 @@ object ValidationUtils {
 
     /**
      * Validate password and show error if invalid
+     * Enhanced for Firebase requirements
      */
     fun validatePassword(passwordEditText: EditText): Boolean {
         val password = passwordEditText.text.toString().trim()
@@ -83,7 +91,7 @@ object ValidationUtils {
                 false
             }
             password.length < 6 -> {
-                setError(passwordEditText, "Password minimal 6 karakter")
+                setError(passwordEditText, "Password minimal 6 karakter (sesuai Firebase)")
                 false
             }
             !isValidPassword(password) -> {
@@ -120,6 +128,38 @@ object ValidationUtils {
                 clearError(confirmPasswordEditText)
                 true
             }
+        }
+    }
+
+    /**
+     * Validate all registration fields at once
+     */
+    fun validateRegistrationForm(
+        emailEditText: EditText,
+        passwordEditText: EditText,
+        confirmPasswordEditText: EditText
+    ): Boolean {
+        // Clear all errors first
+        clearAllErrors(emailEditText, passwordEditText, confirmPasswordEditText)
+
+        val isEmailValid = validateEmail(emailEditText)
+        val isPasswordValid = validatePassword(passwordEditText)
+        val isConfirmPasswordValid = validateConfirmPassword(passwordEditText, confirmPasswordEditText)
+
+        return isEmailValid && isPasswordValid && isConfirmPasswordValid
+    }
+
+    /**
+     * Get password strength description
+     */
+    fun getPasswordStrengthMessage(password: String): String {
+        return when {
+            password.isEmpty() -> "Password kosong"
+            password.length < 6 -> "Password terlalu pendek"
+            !password.any { it.isLetter() } -> "Password harus mengandung huruf"
+            !password.any { it.isDigit() } -> "Password harus mengandung angka"
+            password.length < 8 -> "Password cukup kuat (disarankan 8+ karakter)"
+            else -> "Password kuat"
         }
     }
 }

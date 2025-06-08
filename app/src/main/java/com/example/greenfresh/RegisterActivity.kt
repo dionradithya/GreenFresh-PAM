@@ -2,12 +2,14 @@ package com.example.greenfresh
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Patterns
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -16,9 +18,15 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var confirmPasswordEditText: EditText
     private lateinit var registerButton: Button
 
+    // Firebase Auth instance
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        // Initialize Firebase Auth
+        auth = FirebaseAuth.getInstance()
 
         // Initialize views
         initViews()
@@ -43,104 +51,109 @@ class RegisterActivity : AppCompatActivity() {
     private fun performRegister() {
         val email = emailEditText.text.toString().trim()
         val password = passwordEditText.text.toString().trim()
-        val confirmPassword = confirmPasswordEditText.text.toString().trim()
 
-        // Validate input
-        if (!validateInput(email, password, confirmPassword)) {
+        // Validate input using ValidationUtils
+        if (!validateAllInputs()) {
             return
         }
 
-        // TODO: Implement actual registration logic here
-        // For now, simulate registration
-        simulateRegister(email, password)
+        // Register user with Firebase
+        registerWithFirebase(email, password)
     }
 
-    private fun validateInput(email: String, password: String, confirmPassword: String): Boolean {
-        // Clear previous errors
-        emailEditText.error = null
-        passwordEditText.error = null
-        confirmPasswordEditText.error = null
+    private fun validateAllInputs(): Boolean {
+        val isEmailValid = ValidationUtils.validateEmail(emailEditText)
+        val isPasswordValid = ValidationUtils.validatePassword(passwordEditText)
+        val isConfirmPasswordValid = ValidationUtils.validateConfirmPassword(
+            passwordEditText,
+            confirmPasswordEditText
+        )
 
-        // Check if email is empty
-        if (TextUtils.isEmpty(email)) {
-            emailEditText.error = "Email tidak boleh kosong"
-            emailEditText.requestFocus()
-            return false
-        }
-
-        // Check if email is valid
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.error = "Format email tidak valid"
-            emailEditText.requestFocus()
-            return false
-        }
-
-        // Check if password is empty
-        if (TextUtils.isEmpty(password)) {
-            passwordEditText.error = "Password tidak boleh kosong"
-            passwordEditText.requestFocus()
-            return false
-        }
-
-        // Check password length
-        if (password.length < 6) {
-            passwordEditText.error = "Password minimal 6 karakter"
-            passwordEditText.requestFocus()
-            return false
-        }
-
-        // Check if confirm password is empty
-        if (TextUtils.isEmpty(confirmPassword)) {
-            confirmPasswordEditText.error = "Konfirmasi password tidak boleh kosong"
-            confirmPasswordEditText.requestFocus()
-            return false
-        }
-
-        // Check if passwords match
-        if (password != confirmPassword) {
-            confirmPasswordEditText.error = "Password tidak cocok"
-            confirmPasswordEditText.requestFocus()
-            return false
-        }
-
-        // Check password strength (optional)
-        if (!isPasswordStrong(password)) {
-            passwordEditText.error = "Password harus mengandung huruf dan angka"
-            passwordEditText.requestFocus()
-            return false
-        }
-
-        return true
+        return isEmailValid && isPasswordValid && isConfirmPasswordValid
     }
 
-    private fun isPasswordStrong(password: String): Boolean {
-        // Check if password contains both letters and numbers
-        val hasLetter = password.any { it.isLetter() }
-        val hasDigit = password.any { it.isDigit() }
-        return hasLetter && hasDigit
-    }
-
-    private fun simulateRegister(email: String, password: String) {
+    private fun registerWithFirebase(email: String, password: String) {
         // Show loading state
-        registerButton.isEnabled = false
-        registerButton.text = "Mendaftar..."
+        setLoadingState(true)
 
-        // Simulate network call with delay
-        registerButton.postDelayed({
-            // Reset button state
-            registerButton.isEnabled = true
-            registerButton.text = "Register"
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                setLoadingState(false)
 
-            // For demo purposes, always show success
-            Toast.makeText(this, "Pendaftaran berhasil!", Toast.LENGTH_SHORT).show()
+                if (task.isSuccessful) {
+                    // Registration successful
+                    val user = auth.currentUser
+                    Toast.makeText(
+                        this,
+                        "Pendaftaran berhasil! Selamat datang ${user?.email}",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
-            // Navigate back to login or main activity
-            val intent = Intent(this, LoginFormActivity::class.java)
-            intent.putExtra("registered_email", email)
-            startActivity(intent)
-            finish()
+                    // Send email verification (optional)
+                    sendEmailVerification()
 
-        }, 2000) // 2 second delay to simulate network call
+                    // Navigate to login or main activity
+                    navigateToLogin(email)
+
+                } else {
+                    // Registration failed
+                    handleRegistrationError(task.exception)
+                }
+            }
+    }
+
+    private fun sendEmailVerification() {
+        auth.currentUser?.sendEmailVerification()
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        this,
+                        "Email verifikasi telah dikirim ke ${auth.currentUser?.email}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+    }
+
+    private fun handleRegistrationError(exception: Exception?) {
+        val errorMessage = when (exception) {
+            is FirebaseAuthWeakPasswordException ->
+                "Password terlalu lemah. ${exception.reason}"
+
+            is FirebaseAuthInvalidCredentialsException ->
+                "Format email tidak valid"
+
+            is FirebaseAuthUserCollisionException ->
+                "Email sudah terdaftar. Silakan gunakan email lain atau login"
+
+            else ->
+                "Pendaftaran gagal: ${exception?.message ?: "Terjadi kesalahan"}"
+        }
+
+        Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+
+        // Set specific error on email field if it's a collision
+        if (exception is FirebaseAuthUserCollisionException) {
+            ValidationUtils.setError(emailEditText, "Email sudah terdaftar")
+        }
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        registerButton.isEnabled = !isLoading
+        registerButton.text = if (isLoading) "Mendaftar..." else "Register"
+
+        // Disable input fields during loading
+        emailEditText.isEnabled = !isLoading
+        passwordEditText.isEnabled = !isLoading
+        confirmPasswordEditText.isEnabled = !isLoading
+    }
+
+    private fun navigateToLogin(email: String) {
+        val intent = Intent(this, LoginFormActivity::class.java)
+        intent.putExtra("registered_email", email)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onBackPressed() {
